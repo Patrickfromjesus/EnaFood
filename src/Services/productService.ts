@@ -13,6 +13,12 @@ class ProductService {
   private createDomain(infos: IProducts) {
     return new Product(infos);
   }
+
+  async getAllProducts(page: number) {
+    const LIMIT = 10;
+    const products = await this.model.find().skip(page * LIMIT).limit(LIMIT);
+    return products.map((product) => this.createDomain(product));
+  }
 }
 
 export default ProductService;

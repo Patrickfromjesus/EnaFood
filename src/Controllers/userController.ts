@@ -24,7 +24,7 @@ class UserController {
         paymentMethod: this.req.body.paymentMethod,
       };
       const data = await this.service.createUser(infos);
-      return this.res.status(200).json(data);
+      return this.res.status(201).json(data);
     } catch (error) {
       this.next(error);
     }

@@ -9,7 +9,8 @@ class ProductModel {
     const options = {
       name: { type: String, required: true },
       description: { type: String, required: true },
-      price: { type: String, required: true },
+      price: { type: Number, required: true },
+      imgUrl: { type: String, required: true },
     };
     this.schema = new Schema<IProducts>(options, { versionKey: false });
     this.model = models.Product || model('Product', this.schema);
