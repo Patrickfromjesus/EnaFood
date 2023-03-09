@@ -10,5 +10,6 @@ app.use(express.static('public'));
 app.use('/users', routes.userRouter);
 app.use('/orders', routes.orderRouter);
 app.use('/products', routes.productRouter);
+app.use('/cart', routes.cartRouter);
 
 export default app;
