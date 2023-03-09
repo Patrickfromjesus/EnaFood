@@ -7,7 +7,7 @@ export default class Product {
 	public price: string;
 
   constructor(product: IProducts) {
-    this.id = product._id;
+    this.id = product._id || '';
     this.name = product.name;
     this.description = product.description;
     this.price = product.price;

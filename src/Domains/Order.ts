@@ -12,7 +12,7 @@ export default class Order {
   // productsOrder terá o id do produto e a qunatidade.
 
   constructor(order: IOrders) {
-    this.id = order._id;
+    this.id = order._id || '';
     this.userId = order.userId;
     this.date = order.date;
     this.deliveryAddress = order.deliveryAddress;
