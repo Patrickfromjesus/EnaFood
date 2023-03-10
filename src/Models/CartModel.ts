@@ -7,10 +7,10 @@ class CartModel {
 
   constructor() {
     const options = {
-      userId:{ type: String, ref: 'User', required: true },
+      userId: { type: String, ref: 'User', required: true },
       products: [{
         productId: { type: String, ref: 'Product' },
-	      price: Number,
+        price: Number,
         quantity: Number,
         subTotal: Number,
       }],
