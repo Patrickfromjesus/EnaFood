@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { generateToken } from '../security/auth';
 import UserService from '../Services/userService'
 
 class UserController {
@@ -24,7 +25,8 @@ class UserController {
         paymentMethod: this.req.body.paymentMethod,
       };
       const data = await this.service.createUser(infos);
-      return this.res.status(201).json(data);
+      const token = generateToken({ id: data.id });
+      return this.res.status(201).json({ token });
     } catch (error) {
       this.next(error);
     }

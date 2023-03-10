@@ -5,6 +5,11 @@ const invalidCredentialsError = {
   message: 'Invalid email address or password',
 };
 
+const invalidProductError = {
+  status: error.BAD_REQUEST,
+  message: 'Invalid product',
+};
+
 const badRequestError = {
   status: error.BAD_REQUEST,
   message: 'Invalid fields',
@@ -31,4 +36,5 @@ export default {
   conflictError,
   invalidTokenError,
   forbiddenError,
+  invalidProductError,
 };

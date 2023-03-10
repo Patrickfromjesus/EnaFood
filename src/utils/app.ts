@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import routes from '../Routes';
+import handleErrors from '../Middlewares/handleErrors';
 
 const app = express();
 
@@ -11,5 +12,6 @@ app.use('/users', routes.userRouter);
 app.use('/orders', routes.orderRouter);
 app.use('/products', routes.productRouter);
 app.use('/cart', routes.cartRouter);
+app.use(handleErrors);
 
 export default app;

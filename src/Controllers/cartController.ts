@@ -17,8 +17,8 @@ class CartController {
 
   async createCart() {
     const { authorization } = this.req.headers;
-    const idUser = verifyToken(authorization as string) as string;
     try {
+      const idUser = verifyToken(authorization as string) as string;
       const data = await this.service.createCart(idUser);
       return this.res.status(201).json(data);
     } catch (error) {

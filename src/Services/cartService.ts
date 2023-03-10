@@ -1,6 +1,7 @@
 import { Model } from 'mongoose';
 import Cart from '../Domains/Cart';
 import ICart, { productsCart } from '../Interfaces/ICart';
+import { validateQuantity } from '../Middlewares/validateCart';
 import CartModel from '../Models/CartModel';
 
 class CartService {
@@ -28,6 +29,7 @@ class CartService {
   }
 
   async changeQuantity(userId: string, quantity: number) {
+    validateQuantity(quantity);
     const data = this.model.findOne({ userId }, (err: Error, user: any) => {
       if (err) throw err;
       user.products.quantity = quantity;

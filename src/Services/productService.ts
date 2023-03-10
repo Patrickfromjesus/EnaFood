@@ -19,6 +19,11 @@ class ProductService {
     const products = await this.model.find().skip(page * LIMIT).limit(LIMIT);
     return products.map((product) => this.createDomain(product));
   }
+
+  async getProductById(id: string) {
+    const data = await this.model.findOne({ _id: id });
+    return data;
+  }
 }
 
 export default ProductService;
