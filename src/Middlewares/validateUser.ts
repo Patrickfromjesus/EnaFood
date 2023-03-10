@@ -5,16 +5,27 @@ const MIN_NAME_LENGTH = 10;
 const MIN_PASS_LENGTH = 6;
 
 const validateName = (name: string) => {
-	if (name.length < MIN_NAME_LENGTH) throw errors.badRequestError;
+	if (!name || name.length < MIN_NAME_LENGTH) throw errors.badRequestError;
 }
 
 const validatePass = (pass: string) => {
-	if (pass.length < MIN_PASS_LENGTH) throw errors.badRequestError;
+	if (!pass || pass.length < MIN_PASS_LENGTH) throw errors.badRequestError;
 }
 
 const validateEmail = (email: string) => {
 	const emailRgx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 	if (!emailRgx.test(email)) throw errors.badRequestError;
+}
+
+export const validateLogin = (req: Request, _res: Response, next: NextFunction) => {
+	const { email, password } = req.body;
+	try {
+		validateEmail(email);
+		validatePass(password);
+		return next();
+	} catch (error) {
+		next(error);
+	}
 }
 
 export const validateUser = (req: Request, _res: Response, next: NextFunction) => {

@@ -22,6 +22,7 @@ export const validateCart = (req: Request, _res: Response, next: NextFunction) =
 		validateProduct(productId);
 		validateQuantity(quantity);
 		validatePrice(price);
+		next();
 	} catch (error) {
 		next(error);
 	}

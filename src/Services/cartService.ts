@@ -16,7 +16,7 @@ class CartService {
   }
 
   async createCart(userId: string) {
-    const data = await this.model.create({ userId, products: [] });
+    const data = await this.model.create({ userId, products: [], total: 0.00 });
     return this.createDomain(data);
   }
 

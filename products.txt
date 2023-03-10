@@ -1,0 +1,158 @@
+db.products.insertMany([
+  {
+    name: "Produto A",
+    description: "Descrição do Produto A",
+    price: 29.99,
+    imgUrl: "https://exemplo.com/produto-e"
+  },
+  {
+    name: "Produto B",
+    description: "Descrição do Produto B",
+    price: 29.99,
+    imgUrl: "https://exemplo.com/produto-e"
+  },
+  {
+    name: "Produto C",
+    description: "Descrição do Produto C",
+    price: 29.99,
+    imgUrl: "https://exemplo.com/produto-e"
+  },
+  {
+    name: "Produto D",
+    description: "Descrição do Produto D",
+    price: 29.99,
+    imgUrl: "https://exemplo.com/produto-e"
+  },
+  {
+    name: "Produto E",
+    description: "Descrição do Produto E",
+    price: 29.99,
+    imgUrl: "https://exemplo.com/produto-e"
+  },
+  {
+    name: "Produto F",
+    description: "Descrição do Produto F",
+    price: 39.99,
+    imgUrl: "https://exemplo.com/produto-f"
+  },
+  {
+    name: "Produto G",
+    description: "Descrição do Produto G",
+    price: 59.99,
+    imgUrl: "https://exemplo.com/produto-g"
+  },
+  {
+    name: "Produto H",
+    description: "Descrição do Produto H",
+    price: 79.99,
+    imgUrl: "https://exemplo.com/produto-h"
+  },
+  {
+    name: "Produto I",
+    description: "Descrição do Produto I",
+    price: 99.99,
+    imgUrl: "https://exemplo.com/produto-i"
+  },
+  {
+    name: "Produto J",
+    description: "Descrição do Produto J",
+    price: 149.99,
+    imgUrl: "https://exemplo.com/produto-j"
+  },
+  {
+    name: "Produto K",
+    description: "Descrição do Produto K",
+    price: 199.99,
+    imgUrl: "https://exemplo.com/produto-k"
+  },
+  {
+    name: "Produto L",
+    description: "Descrição do Produto L",
+    price: 249.99,
+    imgUrl: "https://exemplo.com/produto-l"
+  },
+  {
+    name: "Produto M",
+    description: "Descrição do Produto M",
+    price: 349.99,
+    imgUrl: "https://exemplo.com/produto-m"
+  },
+  {
+    name: "Produto N",
+    description: "Descrição do Produto N",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-n"
+  },
+  {
+    name: "Produto O",
+    description: "Descrição do Produto O",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-n"
+  },
+  {
+    name: "Produto P",
+    description: "Descrição do Produto P",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-n"
+  },
+  {
+    name: "Produto Q",
+    description: "Descrição do Produto Q",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-n"
+  },
+  {
+    name: "Produto R",
+    description: "Descrição do Produto R",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-n"
+  },
+  {
+    name: "Produto S",
+    description: "Descrição do Produto S",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-s"
+  },
+  {
+    name: "Produto T",
+    description: "Descrição do Produto T",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-t"
+  },
+  {
+    name: "Produto U",
+    description: "Descrição do Produto U",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-u"
+  },
+  {
+    name: "Produto V",
+    description: "Descrição do Produto V",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-v"
+  },
+  {
+    name: "Produto W",
+    description: "Descrição do Produto W",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-w"
+  },
+  {
+    name: "Produto X",
+    description: "Descrição do Produto X",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-x"
+  },
+  {
+    name: "Produto Y",
+    description: "Descrição do Produto Y",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-y"
+  },
+  {
+    name: "Produto Z",
+    description: "Descrição do Produto Z",
+    price: 499.99,
+    imgUrl: "https://exemplo.com/produto-z"
+  },
+]);

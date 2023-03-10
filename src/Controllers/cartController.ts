@@ -1,6 +1,7 @@
 import CartService from '../Services/cartService';
 import { NextFunction, Request, Response } from 'express';
 import { verifyToken } from '../security/auth';
+import status from '../Errors/errorsStatus';
 
 class CartController {
   private service: CartService;
@@ -20,7 +21,7 @@ class CartController {
     try {
       const idUser = verifyToken(authorization as string) as string;
       const data = await this.service.createCart(idUser);
-      return this.res.status(201).json(data);
+      return this.res.status(status.CREATED).json(data);
     } catch (error) {
       this.next(error);
     }
@@ -33,7 +34,7 @@ class CartController {
     const idUser = verifyToken(authorization as string) as string;
     try {
       await this.service.addProduct(idUser, { productId, quantity, price, subTotal });
-      return this.res.status(200).end();
+      return this.res.status(status.OK).json({ message: 'product successfully added!' });
     } catch (error) {
       this.next(error)
     }
@@ -45,7 +46,7 @@ class CartController {
     const idUser = verifyToken(authorization as string) as string;
     try {
       await this.service.changeQuantity(idUser, quantity);
-      return this.res.status(200).end();
+      return this.res.status(status.OK).json({ message: 'Quantity changed!' });
     } catch (error) {
       this.next(error)
     }
@@ -55,8 +56,8 @@ class CartController {
     const { authorization } = this.req.headers;
     const idUser = verifyToken(authorization as string) as string;
     try {
-      const data = await this.service.removeItem(idUser);
-      return this.res.status(200).end();
+      await this.service.removeItem(idUser);
+      return this.res.status(status.OK).json({ message: 'Item Removed!' });
     } catch (error) {
       this.next(error)
     }
