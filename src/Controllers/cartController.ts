@@ -29,24 +29,13 @@ class CartController {
 
   async addProduct() {
     const { authorization } = this.req.headers;
-    const { productId, quantity, price } = this.req.body;
+    const { productId, quantity, price, total } = this.req.body;
     const subTotal = quantity * price;
-    const idUser = verifyToken(authorization as string) as string;
+    const products = { productId, quantity, price, subTotal };
     try {
-      await this.service.addProduct(idUser, { productId, quantity, price, subTotal });
+      const idUser = verifyToken(authorization as string) as string;
+      await this.service.addProduct(idUser, { products, total });
       return this.res.status(status.OK).json({ message: 'product successfully added!' });
-    } catch (error) {
-      this.next(error)
-    }
-  }
-
-  async changeQuantity() {
-    const { authorization } = this.req.headers;
-    const { quantity } = this.req.body;
-    const idUser = verifyToken(authorization as string) as string;
-    try {
-      await this.service.changeQuantity(idUser, quantity);
-      return this.res.status(status.OK).json({ message: 'Quantity changed!' });
     } catch (error) {
       this.next(error)
     }
@@ -54,9 +43,10 @@ class CartController {
 
   async removeItem() {
     const { authorization } = this.req.headers;
-    const idUser = verifyToken(authorization as string) as string;
+    const { productId, price } = this.req.body;
     try {
-      await this.service.removeItem(idUser);
+      const idUser = verifyToken(authorization as string) as string;
+      await this.service.removeItem(idUser, productId, price);
       return this.res.status(status.OK).json({ message: 'Item Removed!' });
     } catch (error) {
       this.next(error)

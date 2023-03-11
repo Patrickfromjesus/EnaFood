@@ -8,7 +8,7 @@ const handleErrors = (err: IError, _req: Request, res: Response, _next: NextFunc
     return res.status(err.status).json({ message: err.message });
   }
 
-  return res.status(error.INTERNAL_SERVER_ERROR).json({ message: err.message/* 'Internal Server Error' */ });
+  return res.status(error.INTERNAL_SERVER_ERROR).json({ message: err.message });
 };
 
 export default handleErrors;

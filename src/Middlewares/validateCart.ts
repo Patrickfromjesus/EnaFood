@@ -9,17 +9,17 @@ const validateProduct = async (id: string) => {
 }
 
 export const validateQuantity = (quantity: number) => {
-	if (!quantity || quantity <= 0) throw errors.badRequestError;
+	if (!quantity || quantity < 0) throw errors.badRequestError;
 }
 
 const validatePrice = (price: number) => {
-	if (!price || price <= 0) throw errors.badRequestError;
+	if (!price || price < 0) throw errors.badRequestError;
 }
 
-export const validateCart = (req: Request, _res: Response, next: NextFunction) => {
+export const validateCart = async (req: Request, _res: Response, next: NextFunction) => {
 	const { productId, quantity, price } = req.body;
 	try {
-		validateProduct(productId);
+		await validateProduct(productId);
 		validateQuantity(quantity);
 		validatePrice(price);
 		next();

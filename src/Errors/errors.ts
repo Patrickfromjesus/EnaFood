@@ -20,6 +20,12 @@ const conflictError = {
   message: 'User already exists',
 };
 
+const conflictCartError = {
+  status: error.CONFLICT,
+  message: 'Cart already exists',
+};
+
+
 const invalidTokenError = {
   status: error.UNAUTHORIZED,
   message: 'Token must be a valid token',
@@ -37,4 +43,5 @@ export default {
   invalidTokenError,
   forbiddenError,
   invalidProductError,
+  conflictCartError,
 };
