@@ -9,7 +9,6 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static('public'));
 app.use('/users', routes.userRouter);
-app.use('/orders', routes.orderRouter);
 app.use('/products', routes.productRouter);
 app.use('/cart', routes.cartRouter);
 app.use(handleErrors);
