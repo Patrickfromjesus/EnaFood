@@ -1,4 +1,4 @@
-export type productsCart = {
+export type TproductsCart = {
   productId: string;
   price: number;
   quantity: number;
@@ -9,6 +9,6 @@ export default interface ICart {
   _id?: string;
   id?: string;
   userId: string;
-  products: productsCart[];
+  products: TproductsCart[];
   total: number;
 }

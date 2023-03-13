@@ -1,9 +1,9 @@
-import ICart, { productsCart } from '../Interfaces/ICart';
+import ICart, { TproductsCart } from '../Interfaces/ICart';
 
 class Cart {
   public id: string;
   public userId: string;
-  public products: productsCart[];
+  public products: TproductsCart[];
   public total: number;
 
   constructor(infos: ICart) {

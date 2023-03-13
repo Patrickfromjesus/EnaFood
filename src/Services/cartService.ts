@@ -1,10 +1,10 @@
 import { Model } from 'mongoose';
 import Cart from '../Domains/Cart';
 import errors from '../Errors/errors';
-import ICart, { productsCart } from '../Interfaces/ICart';
+import ICart, { TproductsCart } from '../Interfaces/ICart';
 import CartModel from '../Models/CartModel';
 
-type TAddProduct = { products: productsCart, total: number };
+type TAddProduct = { products: TproductsCart, total: number };
 
 class CartService {
   private model: Model<ICart>;
@@ -31,7 +31,7 @@ class CartService {
     return data;
   }
 
-  private async changeValuesCart(userId: string, total: number, products: productsCart) {
+  private async changeValuesCart(userId: string, total: number, products: TproductsCart) {
     return await this.model.updateOne(
       { userId, "products.productId": products.productId },
       { total, $set: { "products.$.quantity": products.quantity, "products.$.subTotal": products.subTotal },
