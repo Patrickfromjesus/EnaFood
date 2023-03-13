@@ -20,12 +20,18 @@ class UserService {
     return { id, name, email, paymentMethod, address };
   }
 
+  private async getUserByEmail(email: string, password: string) {
+    const user = await this.model.findOne({ email });
+    if (user) throw errors.conflictError; 
+  }
+
   private handleHash(pass: string) {
     const hashedPass = hashPass(pass);
     return hashedPass;
   }
 
   async createUser(infos: IUser) {
+    await this.getUserByEmail(infos.email, infos.password);
     const hashedPass = this.handleHash(infos.password);
     const hashedInfos = { ...infos, password: hashedPass };
     const user = await this.model.create(hashedInfos);
