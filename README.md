@@ -257,7 +257,7 @@ Exemplo de carrinho com mais de um item adicionados:
 <br/>
 
 ## Justificativas do projeto <a name = "whyWasUsedThat"></a>
-Neste projeto foi utilizada a biblioteca [jsonwebtoken](https://jwt.io/) para fazer a criptografia do token de requisição e controle de fluxo de usuários.
+Neste projeto foi utilizada a biblioteca [jsonwebtoken](https://jwt.io/) para fazer a criptografia do token de requisição e controle de fluxo de usuários e o bycript (nativo) para fazer criptografia hash(md5) da senha de usuários.
 A biblioteca facilita o processo de requisição, pois é uma tecnologia de fácil implementação, além de trazer
 segurança para a aplicação, decodificando e verificando os tokens JWT.
 Em consonância, foi utilizado o [dotenv](https://www.dotenv.org/docs), para proteger a chave de segurança do JWT, a porta de exposição da api e a URI do Mongo.
