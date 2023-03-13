@@ -22,7 +22,7 @@ class UserService {
 
   private async getUserByEmail(email: string, password: string) {
     const user = await this.model.findOne({ email });
-    if (user) throw errors.conflictError; 
+    if (user) throw errors.conflictError;
   }
 
   private handleHash(pass: string) {
@@ -41,8 +41,8 @@ class UserService {
 
   async loginUser({ email, password }: TLogin) {
     const hashedPass = this.handleHash(password);
-    const user = await this.model.findOne({ email });
-    if (!user || user.password !== hashedPass) throw errors.invalidCredentialsError;
+    const user = await this.model.findOne({ email, password: hashedPass });
+    if (!user) throw errors.invalidCredentialsError;
     const token = generateToken({ id: user._id });
     return token;
   }
