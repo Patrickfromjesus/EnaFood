@@ -52,6 +52,8 @@ Na pasta raiz do projeto:
 
 ```
 npm install
+ou
+yarn install
 ```
 
 Configuração do arquivo .env:
