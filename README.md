@@ -41,6 +41,7 @@ Como clonar o projeto:
 
 ```
 git clone https://github.com/Patrickfromjesus/EnaFood.git
+cd EnaFood
 ```
 
 ### Instalação
