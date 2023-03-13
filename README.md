@@ -270,7 +270,7 @@ A intenção da API é ajudar na organização e no fluxo do usuário que fará 
 * [dotenv](https://www.dotenv.org/docs);
 * [MongoDB](https://www.mongodb.com/);
 * [JWT](https://jwt.io/);
-* [cors](hhttps://www.npmjs.com/package/cors?activeTab=readme);
+* [cors](https://www.npmjs.com/package/cors?activeTab=readme);
 
 ## ✍️ Autor <a name = "authors"></a>
 
