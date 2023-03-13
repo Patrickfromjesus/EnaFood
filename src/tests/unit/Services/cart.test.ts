@@ -4,7 +4,7 @@ import Sinon from 'sinon';
 import Cart from '../../../Domains/Cart';
 import CartService from '../../../Services/cartService';
 
-describe('Testes da camada Service de Car', function () {
+describe('Testes da camada Service do Schema Car', function () {
   const input = '640b315b9468c6c4e20dfe88';
   const inputProduct = '640b315b9468c6c4e20dfe89';
   const outputCart = {
