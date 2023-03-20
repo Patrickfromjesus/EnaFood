@@ -9,7 +9,7 @@ const validateProduct = async (id: string) => {
 }
 
 export const validateQuantity = (quantity: number) => {
-	if (!quantity || quantity < 0) throw errors.badRequestError;
+	if (quantity === undefined || quantity < 0) throw errors.badRequestError;
 }
 
 const validatePrice = (price: number) => {
