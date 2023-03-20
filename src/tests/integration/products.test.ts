@@ -5,6 +5,7 @@ import app from '../../utils/app';
 import { Model } from 'mongoose';
 import { productsPage0 } from './mocks/products';
 import Product from '../../Domains/Product';
+import errorsStatus from '../../Errors/errorsStatus';
 
 chai.use(chaiHttp);
 
@@ -19,7 +20,7 @@ describe('Testes do Schema "Products"', function() {
 		const resultDomain = productsPage0.map((product) => new Product(product));
 
 		httpResponse = await chai.request(app).get('/products');
-		expect(httpResponse.status).to.be.deep.equal(200);
+		expect(httpResponse.status).to.be.deep.equal(errorsStatus.OK);
 		expect(httpResponse.body).to.be.deep.equal(resultDomain);
 	});
 
@@ -28,7 +29,7 @@ describe('Testes do Schema "Products"', function() {
 		const resultDomain = productsPage0.map((product) => new Product(product));
 
 		httpResponse = await chai.request(app).get('/products');
-		expect(httpResponse.status).to.be.deep.equal(500);
+		expect(httpResponse.status).to.be.deep.equal(errorsStatus.INTERNAL_SERVER_ERROR);
 	});
 
 afterEach(function() { sinon.restore() });
