@@ -13,6 +13,10 @@ class CartService {
     this.model = new CartModel().model;
   }
 
+  private parseTwoDecimalsPlace(value: number) {
+    return Number.parseFloat(value.toFixed(2));
+  }
+
   private createDomain(infos: ICart) {
     return new Cart(infos);
   }
@@ -32,7 +36,7 @@ class CartService {
   }
 
   private async changeValuesCart(userId: string, total: number, products: TproductsCart) {
-    return await this.model.updateOne(
+    return await this.model.findOneAndUpdate(
       { userId, "products.productId": products.productId },
       {
         total, $set: { "products.$.quantity": products.quantity, "products.$.subTotal": products.subTotal },
@@ -65,24 +69,24 @@ class CartService {
       return await this.changeValuesCart(userId, newTotal, allProducts);
     }
     // Se não existir esse produto, criar um novo objeto no carrinho.
-    const totalData = await this.model.findOneAndUpdate({ userId }, { $push: { products }, $inc: { total: products.subTotal } });
+    await this.model.findOneAndUpdate({ userId }, { $push: { products }, $inc: { total: products.subTotal } });
     // Atualiza o total a se pagar.
     /* await this.model.updateOne({ userId }, { total: total + totalData?.total }); */
   }
 
   async removeProduct(userId: string, { products, total }: TAddProduct) {
-    if (products.quantity === 0) {
-      return await this.removeItem(userId, products.productId, products.price);
-    }
     const data = await this.getProductCart(userId, products.productId);
     if (!data) {
       throw errors.invalidProductError;
     }
+    if (products.quantity === 0 || data.products[0].quantity === 1) {
+      return await this.removeItem(userId, products.productId, products.price);
+    }
     const newSub = data.products[0].subTotal - products.subTotal;
     const newQnt = data.products[0].quantity - products.quantity;
-    const allProducts = { ...products, quantity: newQnt, subTotal: newSub };
-    const newTotal = data.total - products.subTotal;
-    return await this.changeValuesCart(userId, newTotal, allProducts);
+    const allProducts = { ...products, quantity: newQnt, subTotal: this.parseTwoDecimalsPlace(newSub) };
+    const newTotal = this.parseTwoDecimalsPlace(data.total - products.subTotal);
+    await this.changeValuesCart(userId, newTotal, allProducts);
   }
 }
 

@@ -48,8 +48,8 @@ class CartController {
     const products = { productId, quantity, price, subTotal };
     try {
       const idUser = verifyToken(authorization as string) as string;
-      await this.service.addProduct(idUser, { products, total });
-      return this.res.status(status.OK).json({ message: 'product successfully added!' });
+      await this.service.removeProduct(idUser, { products, total });
+      return this.res.status(status.OK).json({ message: 'product successfully removed!' });
     } catch (error) {
       this.next(error)
     }
