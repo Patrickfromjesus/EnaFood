@@ -78,14 +78,14 @@ describe('Testes da camada Service do Schema Car', function () {
   it('5. Teste para adição de produtos no carrinho com sucesso, com quantidade igual a zero', async function () {
     Sinon.stub(Model, 'findOneAndUpdate').resolves(true);
     Sinon.stub(Model, 'updateOne').resolves();
-    const result = await new CartService().addProduct(input, { products: { productId: inputProduct, price: 0, subTotal: 0, quantity: 0 }, total: 0 });
+    const result = await new CartService().addProduct(input, { products: { productId: inputProduct, price: 0, subTotal: 0, quantity: 0 } });
     expect(result).to.be.equal(undefined);
   });
 
   it('6. Teste para adição de produtos no carrinho com sucesso, com produto já existente no carrinho', async function () {
     Sinon.stub(Model, 'findOne').resolves(outputCart);
-    Sinon.stub(Model, 'updateOne').resolves();
-    const result = await new CartService().addProduct(input, { products: outputCart.products[0], total: outputCart.total });
+    Sinon.stub(Model, 'findOneAndUpdate').resolves();
+    const result = await new CartService().addProduct(input, { products: outputCart.products[0] });
     expect(result).to.be.equal(undefined);
   });
 
@@ -93,7 +93,7 @@ describe('Testes da camada Service do Schema Car', function () {
     Sinon.stub(Model, 'findOne').resolves(false);
     Sinon.stub(Model, 'findOneAndUpdate').resolves(outputCart);
     Sinon.stub(Model, 'updateOne').resolves();
-    const result = await new CartService().addProduct(input, { products: outputCart.products[0], total: outputCart.total });
+    const result = await new CartService().addProduct(input, { products: outputCart.products[0] });
     expect(result).to.be.equal(undefined);
   });
 
