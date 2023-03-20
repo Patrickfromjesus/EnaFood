@@ -30,6 +30,20 @@ class CartController {
   async addProduct() {
     const { authorization } = this.req.headers;
     const { productId, quantity, price, total } = this.req.body;
+    const subTotal = (quantity * price);
+    const products = { productId, quantity, price, subTotal };
+    try {
+      const idUser = verifyToken(authorization as string) as string;
+      await this.service.addProduct(idUser, { products, total });
+      return this.res.status(status.OK).json({ message: 'product successfully added!' });
+    } catch (error) {
+      this.next(error)
+    }
+  }
+
+  async removeProducts() {
+    const { authorization } = this.req.headers;
+    const { productId, quantity, price, total } = this.req.body;
     const subTotal = quantity * price;
     const products = { productId, quantity, price, subTotal };
     try {

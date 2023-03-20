@@ -34,8 +34,9 @@ class CartService {
   private async changeValuesCart(userId: string, total: number, products: TproductsCart) {
     return await this.model.updateOne(
       { userId, "products.productId": products.productId },
-      { total, $set: { "products.$.quantity": products.quantity, "products.$.subTotal": products.subTotal },
-    });
+      {
+        total, $set: { "products.$.quantity": products.quantity, "products.$.subTotal": products.subTotal },
+      });
   }
 
   async removeItem(userId: string, productId: string, price: number) {
@@ -48,7 +49,7 @@ class CartService {
     if (!data) throw errors.invalidProductError;
     await this.model.updateOne({ userId }, { $inc: { total: -price } });
   }
-  
+
   async addProduct(userId: string, { products, total }: TAddProduct) {
     // Se quantity for 0, retirar item do carrinho.
     if (products.quantity === 0) {
@@ -56,13 +57,33 @@ class CartService {
     }
     // Se já existir um produto igual no carrinho, alterar somente a quantidade, o subtotal e o total.
     const data = await this.getProductCart(userId, products.productId);
-    if (data) return await this.changeValuesCart(userId, total, products);
+    if (data) {
+      const newSub = data.products[0].subTotal + products.subTotal;
+      const newQnt = data.products[0].quantity + products.quantity;
+      const allProducts = { ...products, quantity: newQnt, subTotal: newSub };
+      const newTotal = data.total + products.subTotal;
+      return await this.changeValuesCart(userId, newTotal, allProducts);
+    }
     // Se não existir esse produto, criar um novo objeto no carrinho.
-    // Cria um novo item no carrinho.
-    await this.model.findOneAndUpdate({ userId }, { $push: { products } });
+    const totalData = await this.model.findOneAndUpdate({ userId }, { $push: { products }, $inc: { total: products.subTotal } });
     // Atualiza o total a se pagar.
-    await this.model.updateOne({ userId }, { total });
+    /* await this.model.updateOne({ userId }, { total: total + totalData?.total }); */
+  }
+
+  async removeProduct(userId: string, { products, total }: TAddProduct) {
+    if (products.quantity === 0) {
+      return await this.removeItem(userId, products.productId, products.price);
+    }
+    const data = await this.getProductCart(userId, products.productId);
+    if (!data) {
+      throw errors.invalidProductError;
+    }
+    const newSub = data.products[0].subTotal - products.subTotal;
+    const newQnt = data.products[0].quantity - products.quantity;
+    const allProducts = { ...products, quantity: newQnt, subTotal: newSub };
+    const newTotal = data.total - products.subTotal;
+    return await this.changeValuesCart(userId, newTotal, allProducts);
   }
 }
-  
+
 export default CartService;

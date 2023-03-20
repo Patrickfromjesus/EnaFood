@@ -7,6 +7,9 @@ const cartRouter = express.Router();
 cartRouter.post('/addProduct', validateCart, async (req: Request, res: Response, next: NextFunction) => (
   new CartController(req, res, next).addProduct()));
 
+cartRouter.post('/removeProducts', validateCart, async (req: Request, res: Response, next: NextFunction) => (
+  new CartController(req, res, next).removeProducts()));
+
 cartRouter.post('/', async (req: Request, res: Response, next: NextFunction) => (
   new CartController(req, res, next).createCart()));
 
