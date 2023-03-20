@@ -4,7 +4,7 @@ import errors from '../Errors/errors';
 import ICart, { TproductsCart } from '../Interfaces/ICart';
 import CartModel from '../Models/CartModel';
 
-type TAddProduct = { products: TproductsCart, total: number };
+type TAddProduct = { products: TproductsCart };
 
 class CartService {
   private model: Model<ICart>;
@@ -54,7 +54,7 @@ class CartService {
     await this.model.updateOne({ userId }, { $inc: { total: -price } });
   }
 
-  async addProduct(userId: string, { products, total }: TAddProduct) {
+  async addProduct(userId: string, { products }: TAddProduct) {
     // Se quantity for 0, retirar item do carrinho.
     if (products.quantity === 0) {
       return await this.removeItem(userId, products.productId, products.price);
@@ -74,7 +74,7 @@ class CartService {
     /* await this.model.updateOne({ userId }, { total: total + totalData?.total }); */
   }
 
-  async removeProduct(userId: string, { products, total }: TAddProduct) {
+  async removeProduct(userId: string, { products }: TAddProduct) {
     const data = await this.getProductCart(userId, products.productId);
     if (!data) {
       throw errors.invalidProductError;

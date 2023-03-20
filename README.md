@@ -51,7 +51,6 @@ Na pasta raiz do projeto:
 
 ```
 npm install
-cd EnaFood
 ```
 
 Configuração do arquivo .env:
@@ -195,7 +194,7 @@ São usadas três rotas, duas do tipo <strong>POST</strong> para criar um carrin
 </details>
 <br/>
 <details>
-  <summary><strong>Para adicionar um item ao carrinho, basta fazer uma requisição <strong>POST</strong> para `/cart/addProduct` com um token válido no header e as informações no body (Essa requisição tem por função estritamente guardar as informações do carrinho).</strong></summary><br />
+  <summary><strong>Para adicionar um item ao carrinho ou aumentar a quantidade de certo item, basta fazer uma requisição <strong>POST</strong> para `/cart/addProduct` com um token válido no header e as informações no body.</strong></summary><br />
 
   ```json
   Exemplo de body:
@@ -204,10 +203,11 @@ São usadas três rotas, duas do tipo <strong>POST</strong> para criar um carrin
   "productId": "640b73b7385ecf3122b585c9",
   "quantity": 2,
   "price": 29.99,
-  "total": 149.95
 }
 
-Sendo o `productId` o id do produto adicionado, `quantity`, a quantidade daquele produto que foram adicionadas, `price`, o preço unitário do produto e `total`, o valor total já atualizado do carrinho POR COMPLETO, o subTotal será calculado automaticamente.
+Sendo o `productId` o id do produto adicionado, `quantity`, a quantidade daquele produto que foram adicionadas e `price`, o preço unitário do produto. O subTotal e o novo total serão calculado automaticamente.
+
+IMPORTANTE: Se a quantidade do produto passada for nula, o produto será removido do carrinho.
 
   Retorno de sucesso:
   
@@ -231,6 +231,31 @@ Exemplo de carrinho com mais de um item adicionados:
   ...
     ],
   "total": 149.95
+}
+```
+</details>
+<br/>
+
+<details>
+  <summary><strong>Para remover um item do carrinho ou reduzir a quantidade de certo item, basta fazer uma requisição <strong>POST</strong> para `/cart/removeProduct` com um token válido no header e as informações no body.</strong></summary><br />
+
+  ```json
+  Exemplo de body:
+
+  {
+  "productId": "640b73b7385ecf3122b585c9",
+  "quantity": 2,
+  "price": 29.99,
+}
+
+Sendo o `productId` o id do produto a ser removido, `quantity`, a quantidade daquele produto que se quer remover e `price`, o preço unitário do produto. O subTotal e o novo total serão calculado automaticamente.
+
+IMPORTANTE: Se a quantidade do produto passada for nula, o produto será removido do carrinho e, se após a remoção, a quantidade chegar a zero, o produto é removido automaticamente do carrinho.
+
+  Retorno de sucesso:
+  
+ {
+  "message": "product successfully removed!"
 }
 ```
 </details>

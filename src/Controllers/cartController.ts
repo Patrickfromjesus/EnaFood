@@ -29,12 +29,12 @@ class CartController {
 
   async addProduct() {
     const { authorization } = this.req.headers;
-    const { productId, quantity, price, total } = this.req.body;
+    const { productId, quantity, price } = this.req.body;
     const subTotal = (quantity * price);
     const products = { productId, quantity, price, subTotal };
     try {
       const idUser = verifyToken(authorization as string) as string;
-      await this.service.addProduct(idUser, { products, total });
+      await this.service.addProduct(idUser, { products });
       return this.res.status(status.OK).json({ message: 'product successfully added!' });
     } catch (error) {
       this.next(error)
@@ -48,7 +48,7 @@ class CartController {
     const products = { productId, quantity, price, subTotal };
     try {
       const idUser = verifyToken(authorization as string) as string;
-      await this.service.removeProduct(idUser, { products, total });
+      await this.service.removeProduct(idUser, { products });
       return this.res.status(status.OK).json({ message: 'product successfully removed!' });
     } catch (error) {
       this.next(error)
