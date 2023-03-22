@@ -76,12 +76,13 @@ npm run dev (para subir a aplicação).
 
 ## 🔧 Rodar os testes <a name = "tests"></a>
 
-Foram realizados testes de unidades das camadas Service e Controller na aplicação (Ainda em desenvolvimento).
+Foram realizados testes de unidade e integração na aplicação (Ainda em desenvolvimento).
 
 ### Como rodar 
 
 ```
-npm run test
+npm run test (para testes de unidade);
+npm run test:int (para testes de integração);
 ```
 
 ## 🎈 Funcionamento <a name="usage"></a>
