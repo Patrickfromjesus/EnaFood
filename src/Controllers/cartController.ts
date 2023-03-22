@@ -57,11 +57,23 @@ class CartController {
 
   async removeItem() {
     const { authorization } = this.req.headers;
-    const { productId, price } = this.req.body;
+    const { productId } = this.req.body;
     try {
       const idUser = verifyToken(authorization as string) as string;
-      await this.service.removeItem(idUser, productId, price);
+      await this.service.removeItem(idUser, productId);
       return this.res.status(status.OK).json({ message: 'Item Removed!' });
+    } catch (error) {
+      this.next(error)
+    }
+  }
+
+  async changeQuantity() {
+    const { authorization } = this.req.headers;
+    const { productId, quantity, price } = this.req.body;
+    try {
+      const idUser = verifyToken(authorization as string) as string;
+      await this.service.changeQuantity(idUser, { productId, quantity, price });
+      return this.res.status(status.OK).json({ message: 'Item Changed!' });
     } catch (error) {
       this.next(error)
     }

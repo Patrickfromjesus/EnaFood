@@ -4,7 +4,7 @@ import Sinon from 'sinon';
 import Cart from '../../../Domains/Cart';
 import CartService from '../../../Services/cartService';
 
-describe('Testes da camada Service do Schema Car', function () {
+describe('Testes da camada Service do Schema Cart', function () {
   const input = '640b315b9468c6c4e20dfe88';
   const inputProduct = '640b315b9468c6c4e20dfe89';
   const outputCart = {
@@ -58,17 +58,17 @@ describe('Testes da camada Service do Schema Car', function () {
   it('3. Teste para remoção de produto do carrinho com falha', async function () {
     Sinon.stub(Model, 'findOneAndUpdate').resolves(false);
     try {
-      const result = await new CartService().removeItem(input, inputProduct, 79.99);
+      const result = await new CartService().removeItem(input, inputProduct);
     } catch (error) {
       expect((error as Error).message).to.be.equal('Invalid product');
     }
   });
 
   it('4. Teste para remoção de produto do carrinho com sucesso', async function () {
-    Sinon.stub(Model, 'findOneAndUpdate').resolves(true);
+    Sinon.stub(Model, 'findOneAndUpdate').resolves({ products: [{ subtotal: 10 }] });
     Sinon.stub(Model, 'updateOne').resolves();
     try {
-      const result = await new CartService().removeItem(input, inputProduct, 79.99);
+      const result = await new CartService().removeItem(input, inputProduct);
       expect(result).to.be.equal(undefined);
     } catch (error) {
       expect((error as Error).message).to.be.equal('Invalid product');
@@ -76,7 +76,7 @@ describe('Testes da camada Service do Schema Car', function () {
   });
 
   it('5. Teste para adição de produtos no carrinho com sucesso, com quantidade igual a zero', async function () {
-    Sinon.stub(Model, 'findOneAndUpdate').resolves(true);
+    Sinon.stub(Model, 'findOneAndUpdate').resolves({ products: [{ subtotal: 10 }] });
     Sinon.stub(Model, 'updateOne').resolves();
     const result = await new CartService().addProduct(input, { products: { productId: inputProduct, price: 0, subTotal: 0, quantity: 0 } });
     expect(result).to.be.equal(undefined);

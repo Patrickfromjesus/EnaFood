@@ -5,6 +5,7 @@ import ICart, { TproductsCart } from '../Interfaces/ICart';
 import CartModel from '../Models/CartModel';
 
 type TAddProduct = { products: TproductsCart };
+type TChangeValues = { productId: string, quantity: number, price: number };
 
 class CartService {
   private model: Model<ICart>;
@@ -43,7 +44,7 @@ class CartService {
       });
   }
 
-  async removeItem(userId: string, productId: string, price: number) {
+  async removeItem(userId: string, productId: string) {
     // Remove um produto do carrinho.
     const data = await this.model.findOneAndUpdate(
       { userId, "products.productId": productId },
@@ -51,13 +52,14 @@ class CartService {
     );
     // Altera o total do carrinho.
     if (!data) throw errors.invalidProductError;
+    const price = data.products[0].subTotal;
     await this.model.updateOne({ userId }, { $inc: { total: -price } });
   }
 
   async addProduct(userId: string, { products }: TAddProduct) {
     // Se quantity for 0, retirar item do carrinho.
     if (products.quantity === 0) {
-      return await this.removeItem(userId, products.productId, products.price);
+      return await this.removeItem(userId, products.productId);
     }
     // Se já existir um produto igual no carrinho, alterar somente a quantidade, o subtotal e o total.
     const data = await this.getProductCart(userId, products.productId);
@@ -65,7 +67,7 @@ class CartService {
       const newSub = data.products[0].subTotal + products.subTotal;
       const newQnt = data.products[0].quantity + products.quantity;
       const allProducts = { ...products, quantity: newQnt, subTotal: newSub };
-      const newTotal = data.total + products.subTotal;
+      const newTotal = this.parseTwoDecimalsPlace(data.total + products.subTotal);
       return await this.changeValuesCart(userId, newTotal, allProducts);
     }
     // Se não existir esse produto, criar um novo objeto no carrinho.
@@ -80,13 +82,28 @@ class CartService {
       throw errors.invalidProductError;
     }
     if (products.quantity === 0 || data.products[0].quantity === 1) {
-      return await this.removeItem(userId, products.productId, products.price);
+      return await this.removeItem(userId, products.productId);
     }
     const newSub = data.products[0].subTotal - products.subTotal;
     const newQnt = data.products[0].quantity - products.quantity;
     const allProducts = { ...products, quantity: newQnt, subTotal: this.parseTwoDecimalsPlace(newSub) };
     const newTotal = this.parseTwoDecimalsPlace(data.total - products.subTotal);
     await this.changeValuesCart(userId, newTotal, allProducts);
+  }
+
+  async changeQuantity(userId: string, { productId, quantity, price }: TChangeValues) {
+    if (quantity === 0) {
+      return await this.removeItem(userId, productId);
+    }
+    const data = await this.getProductCart(userId, productId);
+    if (!data) {
+      throw errors.invalidProductError;
+    }
+    const subTotal = quantity * price;
+    const newSubTotal = subTotal - data.products[0].subTotal;
+    const newTotal = this.parseTwoDecimalsPlace(data.total + newSubTotal);
+    const product = { productId, quantity, price, subTotal };
+    await this.changeValuesCart(userId, newTotal, product);
   }
 }
 
