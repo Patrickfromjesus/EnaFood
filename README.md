@@ -87,6 +87,10 @@ npm run test:int (para testes de integração);
 
 ## 🎈 Funcionamento <a name="usage"></a>
 
+### Resumo do fluxo da aplicação
+Primero o usuário fará login com o endpoint `POST /users/login` ou, se não possuir cadastro, criará um novo usuário com o endpoint `POST /users/create`. Após, um carrinho vazio será criado para um determinado usuário com base no seu <strong>Token</strong> de acesso por meio de um `POST /cart`. A partir daí, pode-se adicionar produtos e/ou aumentar a quantidade (`POST /cart/addProduct`), remover (`DELETE /cart`) e subtrair quantidade de um certo produto (`POST /cart/removeProduct`). 
+<br/>
+
 ### Endpoint `/products`
 É usada uma rota <strong>GET</strong> para retornar todos os produtos disponíveis, de 10 em 10 resultados para paginação. Se não for especificada a página, será retornada a página 0 (zero), com os 10 primeiros resultados.
 

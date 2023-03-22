@@ -5,6 +5,7 @@ import app from '../../utils/app';
 import { Model } from 'mongoose';
 import errorsStatus from '../../Errors/errorsStatus';
 import errors from '../../Errors/errors';
+import Cart from '../../Domains/Cart';
 
 chai.use(chaiHttp);
 
@@ -21,6 +22,12 @@ const fakeRemoveProduct = {
   "productId": "640b73b7385ecf3122b585c8",
   "price": 20.99,
 	"quantity": 1
+};
+const emptyCart = {
+  "_id": "640f24a70fdff89cde485d61",
+  "userId": "640f24a70fdff89cde485d61",
+  "products": [],
+  "total": 0
 };
 
 describe('Testes de fluxo do Schema Cart', function() {
@@ -56,12 +63,29 @@ describe('Testes de fluxo do Schema Cart', function() {
 		sinon.stub(Model, 'findOneAndUpdate').resolves(false);
 		const { body } = await chai.request(app)
 			.post('/users/login').send(validLogin);
+
 		httpResponse = await chai.request(app).delete('/cart').send(fakeDeleteProduct).set({ "Authorization": `${body.token}` })
 		.then((res) => {
 			expect(res.status).to.be.equal(errorsStatus.BAD_REQUEST);
 			expect(res.body.message).to.be.equal(errors.invalidProductError.message);
 		});
-		
+	});
+
+	it('Teste se cria um carrinho pela primeira vez corretamente em "POST /cart"', async function() {
+		sinon.stub(Model, 'findOne').resolves({ _id: fakeId });
+		const cart = new Cart(emptyCart);
+		const { body } = await chai.request(app)
+			.post('/users/login').send(validLogin);
+
+		sinon.restore();
+		sinon.stub(Model, 'findOne').resolves(false);
+		sinon.stub(Model, 'create').resolves(emptyCart as any);
+
+		httpResponse = await chai.request(app).post('/cart').set({ "Authorization": `${body.token}` })
+		.then((res) => {
+			expect(res.status).to.be.equal(errorsStatus.CREATED);
+			expect(res.body).to.be.deep.equal(cart);
+		});
 	});
 
 	afterEach(function() { sinon.restore() });
