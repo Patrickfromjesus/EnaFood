@@ -66,7 +66,7 @@ class CartService {
     if (data) {
       const newSub = data.products[0].subTotal + products.subTotal;
       const newQnt = data.products[0].quantity + products.quantity;
-      const allProducts = { ...products, quantity: newQnt, subTotal: newSub };
+      const allProducts = { ...products, quantity: newQnt, subTotal: this.parseTwoDecimalsPlace(newSub) };
       const newTotal = this.parseTwoDecimalsPlace(data.total + products.subTotal);
       return await this.changeValuesCart(userId, newTotal, allProducts);
     }
@@ -100,8 +100,8 @@ class CartService {
       throw errors.invalidProductError;
     }
     const subTotal = quantity * price;
-    const newSubTotal = subTotal - data.products[0].subTotal;
-    const newTotal = this.parseTwoDecimalsPlace(data.total + newSubTotal);
+    const newSubTotalToReduce = subTotal - data.products[0].subTotal;
+    const newTotal = this.parseTwoDecimalsPlace(data.total + newSubTotalToReduce);
     const product = { productId, quantity, price, subTotal };
     await this.changeValuesCart(userId, newTotal, product);
   }
