@@ -31,17 +31,11 @@ const invalidTokenError = {
   message: 'Token must be a valid token',
 };
 
-const forbiddenError = {
-  status: error.FORBIDDEN,
-  message: 'Access Denied',
-};
-
 export default {
 	invalidCredentialsError,
   badRequestError,
   conflictError,
   invalidTokenError,
-  forbiddenError,
   invalidProductError,
   conflictCartError,
 };
