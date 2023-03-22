@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import IError from '../Interfaces/IError';
-
 import error from '../Errors/errorsStatus';
 
 const handleErrors = (err: IError, _req: Request, res: Response, _next: NextFunction) => {

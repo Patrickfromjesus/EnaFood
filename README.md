@@ -71,6 +71,8 @@ Para subir o backend rode:
 
 ```
 npm run docker:up (caso não tenha o mongo instalado localmente).
+npm run docker:down (para derrubar o container).
+npm run docker:reset (para reiniciar o container).
 npm run dev (para subir a aplicação).
 ```
 

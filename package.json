@@ -41,6 +41,8 @@
   "scripts": {
     "dev": "ts-node-dev src/utils/server.ts",
     "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:reset": "npm run docker:down && npm run docker:up",
     "test": "mocha -r ts-node/register src/**/**/Services/*.test.ts --exit -t 60000",
     "test:int": "mocha -r ts-node/register src/**/**/*.test.ts --exit -t 60000"
   },
