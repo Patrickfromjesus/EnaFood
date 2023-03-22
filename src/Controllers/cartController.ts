@@ -43,7 +43,7 @@ class CartController {
 
   async removeProducts() {
     const { authorization } = this.req.headers;
-    const { productId, quantity, price, total } = this.req.body;
+    const { productId, quantity, price } = this.req.body;
     const subTotal = quantity * price;
     const products = { productId, quantity, price, subTotal };
     try {

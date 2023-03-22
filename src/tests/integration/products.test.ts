@@ -9,7 +9,7 @@ import errorsStatus from '../../Errors/errorsStatus';
 
 chai.use(chaiHttp);
 
-describe('Testes do Schema "Products"', function() {
+describe('Testes de fluxo do Schema "Products"', function() {
 	let httpResponse;
 
 	it('Teste de fluxo para retornar produtos com sucesso para "GET /products"', async function() {

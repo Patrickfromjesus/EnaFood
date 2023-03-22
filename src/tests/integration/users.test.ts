@@ -12,7 +12,7 @@ const invalidInfos = ['maiconJordan.com', '12345', 'maicon'];
 const validLogin = { email: "cristiano@ronaldo7.com", password: "euSouOMilhor" };
 const fakeId = '640f2c72321fbdc495775407';
 
-describe('Testes do Schema User', function() {
+describe('Testes de fluxo do Schema User', function() {
 	let httpResponse;
 
 	it('Teste de tentativa de fazer login com email inválido para "POST /users/login"', async function() {
