@@ -41,6 +41,7 @@ Como clonar o projeto:
 
 ```
 git clone https://github.com/Patrickfromjesus/EnaFood.git
+cd EnaFood
 ```
 
 ### Instalação
@@ -51,6 +52,8 @@ Na pasta raiz do projeto:
 
 ```
 npm install
+ou
+yarn install
 ```
 
 Configuração do arquivo .env:

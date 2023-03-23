@@ -23,10 +23,8 @@ class CartService {
   }
 
   async createCart(userId: string) {
-    // Retorna o carrinho, se já existente.
     const response = await this.model.findOne({ userId });
     if (response) return this.createDomain(response);
-    // Cria um carrinho vazio para a pessoa usuária, se não houver.
     const data = await this.model.create({ userId, products: [], total: 0.00 });
     return this.createDomain(data);
   }
@@ -45,23 +43,19 @@ class CartService {
   }
 
   async removeItem(userId: string, productId: string) {
-    // Remove um produto do carrinho.
     const data = await this.model.findOneAndUpdate(
       { userId, "products.productId": productId },
       { $pull: { products: { productId } } },
     );
-    // Altera o total do carrinho.
     if (!data) throw errors.invalidProductError;
     const price = data.products[0].subTotal;
     await this.model.updateOne({ userId }, { $inc: { total: -price } });
   }
 
   async addProduct(userId: string, { products }: TAddProduct) {
-    // Se quantity for 0, retirar item do carrinho.
     if (products.quantity === 0) {
       return await this.removeItem(userId, products.productId);
     }
-    // Se já existir um produto igual no carrinho, alterar somente a quantidade, o subtotal e o total.
     const data = await this.getProductCart(userId, products.productId);
     if (data) {
       const newSub = data.products[0].subTotal + products.subTotal;
@@ -70,10 +64,7 @@ class CartService {
       const newTotal = this.parseTwoDecimalsPlace(data.total + products.subTotal);
       return await this.changeValuesCart(userId, newTotal, allProducts);
     }
-    // Se não existir esse produto, criar um novo objeto no carrinho.
     await this.model.findOneAndUpdate({ userId }, { $push: { products }, $inc: { total: products.subTotal } });
-    // Atualiza o total a se pagar.
-    /* await this.model.updateOne({ userId }, { total: total + totalData?.total }); */
   }
 
   async removeProduct(userId: string, { products }: TAddProduct) {

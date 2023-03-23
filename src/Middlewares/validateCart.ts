@@ -13,7 +13,7 @@ export const validateQuantity = (quantity: number) => {
 }
 
 const validatePrice = (price: number) => {
-	if (!price || price < 0) throw errors.badRequestError;
+	if (price === undefined || price < 0) throw errors.badRequestError;
 }
 
 export const validateCart = async (req: Request, _res: Response, next: NextFunction) => {
