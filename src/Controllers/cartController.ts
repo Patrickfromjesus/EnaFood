@@ -30,7 +30,7 @@ class CartController {
   async addProduct() {
     const { authorization } = this.req.headers;
     const { productId, quantity, price } = this.req.body;
-    const subTotal = (quantity * price);
+    const subTotal = Number.parseFloat((quantity * price).toFixed(2));
     const products = { productId, quantity, price, subTotal };
     try {
       const idUser = verifyToken(authorization as string) as string;

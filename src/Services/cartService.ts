@@ -84,7 +84,8 @@ class CartService {
     if (products.quantity === 0 || data.products[0].quantity === 1) {
       return await this.removeItem(userId, products.productId);
     }
-    const newSub = data.products[0].subTotal - products.subTotal;
+    const parcialSub = data.products[0].subTotal - products.subTotal;
+    const newSub = parcialSub < 0 ? 0 : parcialSub;
     const newQnt = data.products[0].quantity - products.quantity;
     const allProducts = { ...products, quantity: newQnt, subTotal: this.parseTwoDecimalsPlace(newSub) };
     const newTotal = this.parseTwoDecimalsPlace(data.total - products.subTotal);
