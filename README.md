@@ -52,7 +52,6 @@ Na pasta raiz do projeto:
 
 ```
 npm install
-cd EnaFood
 ou
 yarn install
 ```
@@ -75,20 +74,27 @@ Para subir o backend rode:
 
 ```
 npm run docker:up (caso não tenha o mongo instalado localmente).
+npm run docker:down (para derrubar o container).
+npm run docker:reset (para reiniciar o container).
 npm run dev (para subir a aplicação).
 ```
 
 ## 🔧 Rodar os testes <a name = "tests"></a>
 
-Foram realizados testes de unidades das camadas Service e Controller na aplicação (Ainda em desenvolvimento).
+Foram realizados testes de unidade e integração na aplicação (Ainda em desenvolvimento).
 
 ### Como rodar 
 
 ```
-npm run test
+npm run test (para testes de unidade);
+npm run test:int (para testes de integração);
 ```
 
 ## 🎈 Funcionamento <a name="usage"></a>
+
+### Resumo do fluxo da aplicação
+Primero o usuário fará login com o endpoint `POST /users/login` ou, se não possuir cadastro, criará um novo usuário com o endpoint `POST /users/create`. Após, um carrinho vazio será criado para um determinado usuário com base no seu <strong>Token</strong> de acesso por meio de um `POST /cart`. A partir daí, pode-se adicionar produtos e/ou aumentar a quantidade (`POST /cart/addProduct`), remover (`DELETE /cart`) e subtrair quantidade de um certo produto (`POST /cart/removeProduct`). 
+<br/>
 
 ### Endpoint `/products`
 É usada uma rota <strong>GET</strong> para retornar todos os produtos disponíveis, de 10 em 10 resultados para paginação. Se não for especificada a página, será retornada a página 0 (zero), com os 10 primeiros resultados.
@@ -176,7 +182,7 @@ São usadas duas rotas <strong>POST</strong> para registrar (`/create`) um usuá
 <br/>
 
 ### Endpoint `/cart`
-São usadas três rotas, duas do tipo <strong>POST</strong> para criar um carrinho para um usuário e outra para adicionar item ou alterar quantidade de itens já existentes e uma do tipo <strong>DELETE</strong> para retirar completamente um produto do carrinho. Todas as informações necessárias são passadas pelo body da requisição e espera-se o token de acesso para autorização da mesma.
+São usadas qautro rotas, duas do tipo <strong>POST</strong> para criar um carrinho para um usuário e outra para adicionar item ou alterar quantidade de itens já existentes, uma do tipo <strong>DELETE</strong> para retirar completamente um produto do carrinho e uma última do tipo <strong>PUT<strong>, para alterar manualmente as quantidades de itens de um produto no carrinho. Todas as informações necessárias são passadas pelo body da requisição e espera-se o token de acesso para autorização da mesma.
 
 <details>
   <summary><strong>Para criar um carrinho, basta fazer uma requisição <strong>POST</strong> para `/cart` com um token válido no header, como no exemplo abaixo. O carrinho iniciará vazio.</strong></summary><br />
@@ -198,7 +204,7 @@ São usadas três rotas, duas do tipo <strong>POST</strong> para criar um carrin
 </details>
 <br/>
 <details>
-  <summary><strong>Para adicionar um item ao carrinho, basta fazer uma requisição <strong>POST</strong> para `/cart/addProduct` com um token válido no header e as informações no body (Essa requisição tem por função estritamente guardar as informações do carrinho).</strong></summary><br />
+  <summary><strong>Para adicionar um item ao carrinho ou aumentar a quantidade de certo item, basta fazer uma requisição <strong>POST</strong> para `/cart/addProduct` com um token válido no header e as informações no body.</strong></summary><br />
 
   ```json
   Exemplo de body:
@@ -207,10 +213,11 @@ São usadas três rotas, duas do tipo <strong>POST</strong> para criar um carrin
   "productId": "640b73b7385ecf3122b585c9",
   "quantity": 2,
   "price": 29.99,
-  "total": 149.95
 }
 
-Sendo o `productId` o id do produto adicionado, `quantity`, a quantidade daquele produto que foram adicionadas, `price`, o preço unitário do produto e `total`, o valor total já atualizado do carrinho POR COMPLETO, o subTotal será calculado automaticamente.
+Sendo o `productId` o id do produto adicionado, `quantity`, a quantidade daquele produto que foram adicionadas e `price`, o preço unitário do produto. O subTotal e o novo total serão calculado automaticamente.
+
+IMPORTANTE: Se a quantidade do produto passada for nula, o produto será removido do carrinho.
 
   Retorno de sucesso:
   
@@ -240,7 +247,32 @@ Exemplo de carrinho com mais de um item adicionados:
 <br/>
 
 <details>
-  <summary><strong>Para deletar um produto do carrinho, basta fazer uma requisição <strong>DELETE</strong> para `/cart` com um token válido no header e um body com o id do produto e seu preço. Aqui o total do carrinho se atualiza automaticamente.</strong></summary><br />
+  <summary><strong>Para remover um item do carrinho ou reduzir a quantidade de certo item, basta fazer uma requisição <strong>POST</strong> para `/cart/removeProduct` com um token válido no header e as informações no body.</strong></summary><br />
+
+  ```json
+  Exemplo de body:
+
+  {
+  "productId": "640b73b7385ecf3122b585c9",
+  "quantity": 2,
+  "price": 29.99,
+}
+
+Sendo o `productId` o id do produto a ser removido, `quantity`, a quantidade daquele produto que se quer remover e `price`, o preço unitário do produto. O subTotal e o novo total serão calculado automaticamente.
+
+IMPORTANTE: Se a quantidade do produto passada for nula, o produto será removido do carrinho e, se após a remoção, a quantidade chegar a zero, o produto é removido automaticamente do carrinho.
+
+  Retorno de sucesso:
+  
+ {
+  "message": "product successfully removed!"
+}
+```
+</details>
+<br/>
+
+<details>
+  <summary><strong>Para deletar um produto do carrinho, basta fazer uma requisição <strong>DELETE</strong> para `/cart` com um token válido no header e um body com o id do produto. Aqui o total do carrinho se atualiza automaticamente.</strong></summary><br />
 
   ```json
   Exemplo de token:
@@ -251,11 +283,30 @@ Exemplo de carrinho com mais de um item adicionados:
 
   {
   "productId": "640b73b7385ecf3122b585c7",
-  "price": 29.99
 }
 ```
 </details>
 <br/>
+
+<details>
+  <summary><strong>Para atualizar a quantidade de um produto do carrinho, basta fazer uma requisição <strong>PUT</strong> para `/cart/changeQuantity` com um token válido no header e um body com o id do produto, a quantidade desejada e o valor do mesmo.</strong></summary><br />
+
+  ```json
+  Exemplo de token:
+
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGIzMTViOTQ2OGM2YzRlMjBkZmU4OCIsImlhdCI6MTY3ODcxNDE0MywiZXhwIjoxNjc4NzMyMTQzfQ.mFhTppzmCFwMqnOPc2YmRWOhyaYDgRdKisOUY8ot_1E"
+
+  Exemplo de body:
+
+  {
+  "productId": "640b73b7385ecf3122b585c8",
+  "quantity": 2,
+  "price": 29.99
+}
+
+IMPORTANTE: Se a quantidade for nula, o produto será retirado do carrinho!
+```
+</details>
 
 ## Justificativas do projeto <a name = "whyWasUsedThat"></a>
 Neste projeto foi utilizada a biblioteca [jsonwebtoken](https://jwt.io/) para fazer a criptografia do token de requisição e controle de fluxo de usuários e o bycript (nativo) para fazer criptografia hash(md5) da senha de usuários.

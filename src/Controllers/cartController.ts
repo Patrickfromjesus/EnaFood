@@ -29,13 +29,27 @@ class CartController {
 
   async addProduct() {
     const { authorization } = this.req.headers;
-    const { productId, quantity, price, total } = this.req.body;
+    const { productId, quantity, price } = this.req.body;
+    const subTotal = Number.parseFloat((quantity * price).toFixed(2));
+    const products = { productId, quantity, price, subTotal };
+    try {
+      const idUser = verifyToken(authorization as string) as string;
+      await this.service.addProduct(idUser, { products });
+      return this.res.status(status.OK).json({ message: 'product successfully added!' });
+    } catch (error) {
+      this.next(error)
+    }
+  }
+
+  async removeProducts() {
+    const { authorization } = this.req.headers;
+    const { productId, quantity, price } = this.req.body;
     const subTotal = quantity * price;
     const products = { productId, quantity, price, subTotal };
     try {
       const idUser = verifyToken(authorization as string) as string;
-      await this.service.addProduct(idUser, { products, total });
-      return this.res.status(status.OK).json({ message: 'product successfully added!' });
+      await this.service.removeProduct(idUser, { products });
+      return this.res.status(status.OK).json({ message: 'product successfully removed!' });
     } catch (error) {
       this.next(error)
     }
@@ -43,11 +57,23 @@ class CartController {
 
   async removeItem() {
     const { authorization } = this.req.headers;
-    const { productId, price } = this.req.body;
+    const { productId } = this.req.body;
     try {
       const idUser = verifyToken(authorization as string) as string;
-      await this.service.removeItem(idUser, productId, price);
+      await this.service.removeItem(idUser, productId);
       return this.res.status(status.OK).json({ message: 'Item Removed!' });
+    } catch (error) {
+      this.next(error)
+    }
+  }
+
+  async changeQuantity() {
+    const { authorization } = this.req.headers;
+    const { productId, quantity, price } = this.req.body;
+    try {
+      const idUser = verifyToken(authorization as string) as string;
+      await this.service.changeQuantity(idUser, { productId, quantity, price });
+      return this.res.status(status.OK).json({ message: 'Item Changed!' });
     } catch (error) {
       this.next(error)
     }

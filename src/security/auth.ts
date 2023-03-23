@@ -18,3 +18,8 @@ export const verifyToken = (token: string) => {
     throw error.invalidTokenError;
   }
 };
+
+export default {
+  generateToken,
+  verifyToken,
+}
