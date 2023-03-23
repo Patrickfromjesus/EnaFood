@@ -4,6 +4,9 @@ import { validateCart } from '../Middlewares/validateCart';
 
 const cartRouter = express.Router();
 
+cartRouter.put('/changeQuantity', validateCart, async (req: Request, res: Response, next: NextFunction) => (
+  new CartController(req, res, next).changeQuantity()));
+
 cartRouter.post('/addProduct', validateCart, async (req: Request, res: Response, next: NextFunction) => (
   new CartController(req, res, next).addProduct()));
 

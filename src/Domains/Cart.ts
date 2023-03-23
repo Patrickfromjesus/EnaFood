@@ -12,10 +12,6 @@ class Cart {
     this.products = infos.products;
     this.total = infos.total;
   }
-
-  public getTotal() {
-    return this.products.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
-  }
 }
 
 export default Cart;

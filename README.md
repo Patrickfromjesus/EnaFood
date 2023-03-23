@@ -179,7 +179,7 @@ São usadas duas rotas <strong>POST</strong> para registrar (`/create`) um usuá
 <br/>
 
 ### Endpoint `/cart`
-São usadas três rotas, duas do tipo <strong>POST</strong> para criar um carrinho para um usuário e outra para adicionar item ou alterar quantidade de itens já existentes e uma do tipo <strong>DELETE</strong> para retirar completamente um produto do carrinho. Todas as informações necessárias são passadas pelo body da requisição e espera-se o token de acesso para autorização da mesma.
+São usadas qautro rotas, duas do tipo <strong>POST</strong> para criar um carrinho para um usuário e outra para adicionar item ou alterar quantidade de itens já existentes, uma do tipo <strong>DELETE</strong> para retirar completamente um produto do carrinho e uma última do tipo <strong>PUT<strong>, para alterar manualmente as quantidades de itens de um produto no carrinho. Todas as informações necessárias são passadas pelo body da requisição e espera-se o token de acesso para autorização da mesma.
 
 <details>
   <summary><strong>Para criar um carrinho, basta fazer uma requisição <strong>POST</strong> para `/cart` com um token válido no header, como no exemplo abaixo. O carrinho iniciará vazio.</strong></summary><br />
@@ -269,7 +269,7 @@ IMPORTANTE: Se a quantidade do produto passada for nula, o produto será removid
 <br/>
 
 <details>
-  <summary><strong>Para deletar um produto do carrinho, basta fazer uma requisição <strong>DELETE</strong> para `/cart` com um token válido no header e um body com o id do produto e seu preço. Aqui o total do carrinho se atualiza automaticamente.</strong></summary><br />
+  <summary><strong>Para deletar um produto do carrinho, basta fazer uma requisição <strong>DELETE</strong> para `/cart` com um token válido no header e um body com o id do produto. Aqui o total do carrinho se atualiza automaticamente.</strong></summary><br />
 
   ```json
   Exemplo de token:
@@ -280,11 +280,30 @@ IMPORTANTE: Se a quantidade do produto passada for nula, o produto será removid
 
   {
   "productId": "640b73b7385ecf3122b585c7",
-  "price": 29.99
 }
 ```
 </details>
 <br/>
+
+<details>
+  <summary><strong>Para atualizar a quantidade de um produto do carrinho, basta fazer uma requisição <strong>PUT</strong> para `/cart/changeQuantity` com um token válido no header e um body com o id do produto, a quantidade desejada e o valor do mesmo.</strong></summary><br />
+
+  ```json
+  Exemplo de token:
+
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGIzMTViOTQ2OGM2YzRlMjBkZmU4OCIsImlhdCI6MTY3ODcxNDE0MywiZXhwIjoxNjc4NzMyMTQzfQ.mFhTppzmCFwMqnOPc2YmRWOhyaYDgRdKisOUY8ot_1E"
+
+  Exemplo de body:
+
+  {
+  "productId": "640b73b7385ecf3122b585c8",
+  "quantity": 2,
+  "price": 29.99
+}
+
+IMPORTANTE: Se a quantidade for nula, o produto será retirado do carrinho!
+```
+</details>
 
 ## Justificativas do projeto <a name = "whyWasUsedThat"></a>
 Neste projeto foi utilizada a biblioteca [jsonwebtoken](https://jwt.io/) para fazer a criptografia do token de requisição e controle de fluxo de usuários e o bycript (nativo) para fazer criptografia hash(md5) da senha de usuários.
