@@ -6,7 +6,7 @@
 <div align="center">
 
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
+[![GitHub Issues](https://img.shields.io/github/issues/Patrickfromjesus/EnaFood.svg)](https://github.com/Patrickfromjesus/EnaFood/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/Patrickfromjesus/EnaFood.svg)](https://github.com/Patrickfromjesus/EnaFood/pulls)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
@@ -41,6 +41,7 @@ Como clonar o projeto:
 
 ```
 git clone https://github.com/Patrickfromjesus/EnaFood.git
+cd EnaFood
 ```
 
 ### Instalação
@@ -51,6 +52,9 @@ Na pasta raiz do projeto:
 
 ```
 npm install
+cd EnaFood
+ou
+yarn install
 ```
 
 Configuração do arquivo .env:
@@ -254,7 +258,7 @@ Exemplo de carrinho com mais de um item adicionados:
 <br/>
 
 ## Justificativas do projeto <a name = "whyWasUsedThat"></a>
-Neste projeto foi utilizada a biblioteca [jsonwebtoken](https://jwt.io/) para fazer a criptografia do token de requisição e controle de fluxo de usuários.
+Neste projeto foi utilizada a biblioteca [jsonwebtoken](https://jwt.io/) para fazer a criptografia do token de requisição e controle de fluxo de usuários e o bycript (nativo) para fazer criptografia hash(md5) da senha de usuários.
 A biblioteca facilita o processo de requisição, pois é uma tecnologia de fácil implementação, além de trazer
 segurança para a aplicação, decodificando e verificando os tokens JWT.
 Em consonância, foi utilizado o [dotenv](https://www.dotenv.org/docs), para proteger a chave de segurança do JWT, a porta de exposição da api e a URI do Mongo.
@@ -270,7 +274,7 @@ A intenção da API é ajudar na organização e no fluxo do usuário que fará 
 * [dotenv](https://www.dotenv.org/docs);
 * [MongoDB](https://www.mongodb.com/);
 * [JWT](https://jwt.io/);
-* [cors](hhttps://www.npmjs.com/package/cors?activeTab=readme);
+* [cors](https://www.npmjs.com/package/cors?activeTab=readme);
 
 ## ✍️ Autor <a name = "authors"></a>
 
