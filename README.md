@@ -182,7 +182,7 @@ São usadas duas rotas <strong>POST</strong> para registrar (`/create`) um usuá
 <br/>
 
 ### Endpoint `/cart`
-São usadas qautro rotas, duas do tipo <strong>POST</strong> para criar um carrinho para um usuário e outra para adicionar item ou alterar quantidade de itens já existentes, uma do tipo <strong>DELETE</strong> para retirar completamente um produto do carrinho e uma última do tipo <strong>PUT<strong>, para alterar manualmente as quantidades de itens de um produto no carrinho. Todas as informações necessárias são passadas pelo body da requisição e espera-se o token de acesso para autorização da mesma.
+São usadas qautro rotas, duas do tipo <strong>POST</strong> para criar um carrinho para um usuário e outra para adicionar item ou alterar quantidade de itens já existentes, uma do tipo <strong>DELETE</strong> para retirar completamente um produto do carrinho e uma última do tipo <strong>PUT</strong>, para alterar manualmente as quantidades de itens de um produto no carrinho. Todas as informações necessárias são passadas pelo body da requisição e espera-se o token de acesso para autorização da mesma.
 
 <details>
   <summary><strong>Para criar um carrinho, basta fazer uma requisição <strong>POST</strong> para `/cart` com um token válido no header, como no exemplo abaixo. O carrinho iniciará vazio.</strong></summary><br />
